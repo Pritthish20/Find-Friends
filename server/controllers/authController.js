@@ -41,7 +41,7 @@ const signUp = async (req, res) => {
       });
     } catch (error) {
       res.status(400);
-      throw ne("Invalid user data");
+      throw new Error("Invalid user data");
     }
   };
   
@@ -69,10 +69,14 @@ const signUp = async (req, res) => {
             profileImage: existingUser.profileImage,
         });
       } else {
-        return res.status(401).json({ message: "Invalid Password" });
+        return res.status(401).json({
+          success: false,
+          message: "Invalid Password" });
       }
     } else {
-      return res.status(401).json({ message: "User not found" });
+      return res.status(401).json({
+        success: false,
+        message: "User not found" });
     }
   };
   
@@ -81,7 +85,9 @@ const signUp = async (req, res) => {
       httpOnly: true,
       expires: new Date(0),
     });
-    return res.status(200).json({ message: "Logged Out Successfully" });
+    return res.status(200).json({
+      success:true,
+      message: "Logged Out Successfully" });
 };
 
 export {
